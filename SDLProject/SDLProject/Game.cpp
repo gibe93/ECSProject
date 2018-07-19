@@ -1,12 +1,15 @@
 #include "Game.h"
 #include "TextureManager.h"
-#include "GameObject.h"
 #include "TileMap.h"
+#include "Components.h"
 
-GameObject* Player;
 SDL_Renderer* Game::Renderer = nullptr;
 Game* Game::m_pGameInstance = nullptr;
 TileMap* Map;
+
+
+Manager manager;
+auto& Player(manager.AddEntity());
 
 Game::Game() :
 	m_bIsRunning(false),
@@ -46,8 +49,10 @@ void Game::Init(const char * title, int xPos, int yPos, int width, int height, b
 		}
 
 		m_bIsRunning = true;
-		Player = new GameObject("assets/hero.png", 0, 0);
 		Map = new TileMap();
+		
+		Player.AddComponent<PositionComponent>();
+		Player.AddComponent<SpriteComponent>("assets/hero.png");
 	}
 }
 
@@ -68,16 +73,14 @@ void Game::HandleEvents()
 
 void Game::Update()
 {
-	Player->Update();
+	manager.Update();
 }
 
 void Game::Draw()
 {
 	SDL_RenderClear(Renderer);
-
 	Map->DrawMap();
-	Player->Draw();
-
+	manager.Draw();
 	SDL_RenderPresent(Renderer);
 }
 
