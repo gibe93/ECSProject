@@ -1,5 +1,6 @@
 #include "Game.h"
 #include "TextureManager.h"
+#include "CollisionManager.h"
 #include "TileMap.h"
 #include "Components.h"
 #include "Vector2D.h"
@@ -11,6 +12,7 @@ SDL_Event Game::event;
 Game* Game::m_pGameInstance = nullptr;
 
 auto& Player(manager.AddEntity());
+auto& Wall(manager.AddEntity());
 
 Game::Game() :
 	m_bIsRunning(false),
@@ -51,10 +53,15 @@ void Game::Init(const char * title, int xPos, int yPos, int width, int height, b
 
 		m_bIsRunning = true;
 		Map = new TileMap();
-		
-		Player.AddComponent<TransformComponent>(5);
+
+		Player.AddComponent<TransformComponent>(3);
 		Player.AddComponent<SpriteComponent>("assets/hero.png");
 		Player.AddComponent<KeyboardController>();
+		Player.AddComponent<ColliderComponent>("player");
+
+		Wall.AddComponent<TransformComponent>(200.0f, 200.0f, 300, 20, 1);
+		Wall.AddComponent<SpriteComponent>("assets/grass.png");
+		Wall.AddComponent<ColliderComponent>("wall");
 	}
 }
 
@@ -74,7 +81,13 @@ void Game::HandleEvents()
 
 void Game::Update()
 {
+	manager.Refresh();
 	manager.Update();
+	if (CollisionManager::AABB(Player.GetComponent<ColliderComponent>().m_oCollider,
+		                       Wall.GetComponent<ColliderComponent>().m_oCollider))
+	{
+		cout << "wall hit" << endl;
+	}
 }
 
 void Game::Draw()

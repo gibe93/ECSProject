@@ -9,7 +9,11 @@ public:
 	Vector2D m_oPosition;
 	Vector2D m_oVelocity;
 
-	int m_iSpeed;
+	int m_iScale = 1;
+	int m_iSpeed = 0;
+
+	int m_iHeight = 32;
+	int m_iWidth = 32;
 
 	TransformComponent(int speed = 0)
 	{
@@ -25,17 +29,26 @@ public:
 		m_iSpeed = speed;
 	}
 
-	TransformComponent(const Vector2D& vec, int speed = 0)
+	TransformComponent(float x, float y, int width, int height, int scale, int speed = 0)
+	{
+		m_oPosition.x = x;
+		m_oPosition.y = y;
+		m_iScale = scale;
+		m_iSpeed = speed;
+		m_iWidth = width;
+		m_iHeight = height;
+		m_iSpeed = speed;
+	}
+
+	TransformComponent(const Vector2D& vec, int scale = 1, int speed = 0)
 	{
 		m_oPosition = vec;
+		m_iScale = scale;
 		m_iSpeed = speed;
 	}
 
 	void Init() override
 	{
-		m_oPosition.x = 0;
-		m_oPosition.y = 0;
-
 		m_oVelocity.x = 0;
 		m_oVelocity.y = 0;
 	}
