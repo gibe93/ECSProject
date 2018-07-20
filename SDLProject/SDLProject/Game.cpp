@@ -2,13 +2,14 @@
 #include "TextureManager.h"
 #include "TileMap.h"
 #include "Components.h"
+#include "Vector2D.h"
 
-SDL_Renderer* Game::Renderer = nullptr;
-Game* Game::m_pGameInstance = nullptr;
 TileMap* Map;
-
-
 Manager manager;
+SDL_Renderer* Game::Renderer = nullptr;
+SDL_Event Game::event;
+Game* Game::m_pGameInstance = nullptr;
+
 auto& Player(manager.AddEntity());
 
 Game::Game() :
@@ -51,14 +52,14 @@ void Game::Init(const char * title, int xPos, int yPos, int width, int height, b
 		m_bIsRunning = true;
 		Map = new TileMap();
 		
-		Player.AddComponent<PositionComponent>();
+		Player.AddComponent<TransformComponent>(5);
 		Player.AddComponent<SpriteComponent>("assets/hero.png");
+		Player.AddComponent<KeyboardController>();
 	}
 }
 
 void Game::HandleEvents()
 {
-	SDL_Event event;
 	SDL_PollEvent(&event);
 	switch (event.type)
 	{

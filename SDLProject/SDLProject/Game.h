@@ -28,13 +28,14 @@ public:
 	bool Running() { return m_bIsRunning; }
 
 	static SDL_Renderer* Renderer;
+	static SDL_Event event;
 
 	Game(Game const&) = delete;
 	void operator=(Game const&) = delete;
 	
 protected:
 	static Game* m_pGameInstance;
-
+	
 private:
 	Game();
 
