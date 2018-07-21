@@ -11,7 +11,7 @@ public:
 	SpriteComponent* m_pSprite;
 	SDL_Rect m_oTileRect;
 	int m_iTileID;
-	const char* path;
+	std::string type;
 
 	TileComponent() {};
 
@@ -26,13 +26,13 @@ public:
 		switch (m_iTileID)
 		{
 		case 0:
-			path = "assets/dirt.png";
+			type = "Dirt";
 			break;
 		case 1:
-			path = "assets/water.png";
+			type = "Water";
 			break;
 		case 2:
-			path = "assets/grass.png";
+			type = "Grass";
 			break;
 		default:
 			break;
@@ -43,7 +43,7 @@ public:
 	{
 		entity->AddComponent<TransformComponent>((float)m_oTileRect.x, (float)m_oTileRect.y, m_oTileRect.w, m_oTileRect.h, 1, 0);
 		m_pTransform = &entity->GetComponent<TransformComponent>();
-		entity->AddComponent<SpriteComponent>(path);
+		entity->AddComponent<SpriteComponent>(type);
 		m_pSprite = &entity->GetComponent<SpriteComponent>();
 	}
 };

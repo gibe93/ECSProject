@@ -9,6 +9,8 @@ public:
 	Vector2D m_oPosition;
 	Vector2D m_oVelocity;
 
+	bool m_bIsMoving = false;
+
 	int m_iScale = 1;
 	int m_iSpeed = 0;
 
@@ -57,6 +59,11 @@ public:
 	{
 		m_oPosition.x += m_oVelocity.x * m_iSpeed;
 		m_oPosition.y += m_oVelocity.y * m_iSpeed;
+		if(m_oVelocity!=0)
+		{
+			m_bIsMoving = true;
+		}
+		else m_bIsMoving = false;
 	}
 	void SetPos(float x, float y)
 	{

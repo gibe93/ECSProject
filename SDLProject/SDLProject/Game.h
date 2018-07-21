@@ -6,6 +6,7 @@
 #include <memory>
 #include <vector>
 
+class AssetManager;
 class ColliderComponent;
 using namespace std;
 
@@ -33,6 +34,7 @@ public:
 	static SDL_Renderer* Renderer;
 	static SDL_Event event;
 	static std::vector<ColliderComponent*> m_vColliders;
+	static AssetManager* assets;
 
 	Game(Game const&) = delete;
 	void operator=(Game const&) = delete;

@@ -60,6 +60,18 @@ Vector2D & Vector2D::operator/=(const Vector2D & vec)
 	return this->Divide(vec);
 }
 
+bool Vector2D::operator!=(const Vector2D & v)
+{
+	if (this->x == v.x && this->y == v.y) return false;
+	else return true;
+}
+
+bool Vector2D::operator!=(const float& f)
+{
+	if (this->x == f && this->y == f) return false;
+	else return true;
+}
+
 Vector2D & operator+(Vector2D & v1, const Vector2D & v2)
 {
 	return v1.Add(v2);

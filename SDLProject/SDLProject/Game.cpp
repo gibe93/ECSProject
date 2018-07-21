@@ -4,12 +4,15 @@
 #include "Components.h"
 #include "Vector2D.h"
 #include "CollisionManager.h"
+#include "AssetManager.h"
 
 Manager manager;
 SDL_Renderer* Game::Renderer = nullptr;
 SDL_Event Game::event;
 std::vector<ColliderComponent*> Game::m_vColliders;
+AssetManager* Game::assets = new AssetManager(&manager);
 Game* Game::m_pGameInstance = nullptr;
+
 
 auto& Player(manager.AddEntity());
 
@@ -59,13 +62,18 @@ void Game::Init(const char * title, int xPos, int yPos, int width, int height, b
 		}
 
 		m_bIsRunning = true;
+
+		assets->AddTexture("Player", "assets/hero.png");
+		assets->AddTexture("Dirt", "assets/dirt.png");
+		assets->AddTexture("Water", "assets/water.png");
+		assets->AddTexture("Grass", "assets/grass.png");
 		
+
 		TileMap::LoadMap("assets/map.txt", 16, 16);
 
 		Player.AddComponent<TransformComponent>(3);
-		Player.AddComponent<SpriteComponent>("assets/hero.png");
+		Player.AddComponent<SpriteComponent>("Player");
 		Player.AddComponent<KeyboardController>();
-		Player.AddComponent<ColliderComponent>("player");
 		Player.AddGroup(GroupPlayers);
 	}
 }
