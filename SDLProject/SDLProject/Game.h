@@ -4,7 +4,9 @@
 #undef main
 #include <iostream>
 #include <memory>
+#include <vector>
 
+class ColliderComponent;
 using namespace std;
 
 class Game
@@ -27,8 +29,10 @@ public:
 
 	bool Running() { return m_bIsRunning; }
 
+	static void AddTile(int id, int x, int y);
 	static SDL_Renderer* Renderer;
 	static SDL_Event event;
+	static std::vector<ColliderComponent*> m_vColliders;
 
 	Game(Game const&) = delete;
 	void operator=(Game const&) = delete;

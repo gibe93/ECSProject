@@ -1,18 +1,25 @@
 #include "Game.h"
 #include "TextureManager.h"
-#include "CollisionManager.h"
 #include "TileMap.h"
 #include "Components.h"
 #include "Vector2D.h"
+#include "CollisionManager.h"
 
-TileMap* Map;
 Manager manager;
 SDL_Renderer* Game::Renderer = nullptr;
 SDL_Event Game::event;
+std::vector<ColliderComponent*> Game::m_vColliders;
 Game* Game::m_pGameInstance = nullptr;
 
 auto& Player(manager.AddEntity());
-auto& Wall(manager.AddEntity());
+
+enum GroupLabels: std::size_t
+{
+	GroupMap,
+	GroupPlayers,
+	GroupEnemies,
+	GroupColliders
+};
 
 Game::Game() :
 	m_bIsRunning(false),
@@ -52,16 +59,14 @@ void Game::Init(const char * title, int xPos, int yPos, int width, int height, b
 		}
 
 		m_bIsRunning = true;
-		Map = new TileMap();
+		
+		TileMap::LoadMap("assets/map.txt", 16, 16);
 
 		Player.AddComponent<TransformComponent>(3);
 		Player.AddComponent<SpriteComponent>("assets/hero.png");
 		Player.AddComponent<KeyboardController>();
 		Player.AddComponent<ColliderComponent>("player");
-
-		Wall.AddComponent<TransformComponent>(200.0f, 200.0f, 300, 20, 1);
-		Wall.AddComponent<SpriteComponent>("assets/grass.png");
-		Wall.AddComponent<ColliderComponent>("wall");
+		Player.AddGroup(GroupPlayers);
 	}
 }
 
@@ -83,18 +88,36 @@ void Game::Update()
 {
 	manager.Refresh();
 	manager.Update();
-	if (CollisionManager::AABB(Player.GetComponent<ColliderComponent>().m_oCollider,
-		                       Wall.GetComponent<ColliderComponent>().m_oCollider))
+
+	for (auto cc : m_vColliders)
 	{
-		cout << "wall hit" << endl;
+		CollisionManager::AABB(Player.GetComponent<ColliderComponent>(), *cc);
 	}
 }
+
+auto& tiles(manager.GetGroup(GroupMap));
+auto& players(manager.GetGroup(GroupPlayers));
+auto& enemies(manager.GetGroup(GroupEnemies));
+auto& colliders(manager.GetGroup(GroupColliders));
 
 void Game::Draw()
 {
 	SDL_RenderClear(Renderer);
-	Map->DrawMap();
-	manager.Draw();
+	for(auto& t : tiles)
+	{
+		t->Draw();
+	}
+	for (auto& p : players)
+	{
+		p->Draw();
+	}	for (auto& e : enemies)
+	{
+		e->Draw();
+	}	
+	for (auto& c : colliders)
+	{
+		c->Draw();
+	}
 	SDL_RenderPresent(Renderer);
 }
 
@@ -104,4 +127,11 @@ void Game::Clean()
 	SDL_DestroyRenderer(Renderer);
 	SDL_Quit();
 	cout << "Game has been cleaned and closed" << endl;
+}
+
+void Game::AddTile(int id, int x, int y)
+{
+	auto& tile(manager.AddEntity());
+	tile.AddComponent<TileComponent>(x, y, 32, 32, id);
+	tile.AddGroup(GroupMap);
 }

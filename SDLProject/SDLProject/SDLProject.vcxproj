@@ -25,6 +25,7 @@
     <ClInclude Include="ECS.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="KeyboardController.h" />
+    <ClInclude Include="TileComponent.h" />
     <ClInclude Include="TransformComponent.h" />
     <ClInclude Include="SpriteComponent.h" />
     <ClInclude Include="TextureManager.h" />
@@ -33,6 +34,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CollisionManager.cpp" />
+    <ClCompile Include="ECS.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="TextureManager.cpp" />
@@ -44,6 +46,9 @@
     <Image Include="assets\grass.png" />
     <Image Include="assets\hero.png" />
     <Image Include="assets\water.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="assets\map.txt" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{91B26504-4022-4705-B6BB-986FCBBD3EE7}</ProjectGuid>
@@ -96,8 +101,8 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <IncludePath>D:\Downloads\SDL2_image-devel-2.0.3-VC\SDL2_image-2.0.3\include;D:\Downloads\SDL2-devel-2.0.8-VC\SDL2-2.0.8\include;$(IncludePath)</IncludePath>
-    <LibraryPath>D:\Downloads\SDL2_image-devel-2.0.3-VC\SDL2_image-2.0.3\lib\x64;D:\Downloads\SDL2-devel-2.0.8-VC\SDL2-2.0.8\lib\x64;$(LibraryPath)</LibraryPath>
+    <IncludePath>D:\SDL2-devel-2.0.8-VC\SDL2_image-2.0.3\include;D:\Downloads\SDL2_image-devel-2.0.3-VC\SDL2_image-2.0.3\include;D:\Downloads\SDL2-devel-2.0.8-VC\SDL2-2.0.8\include;$(IncludePath)</IncludePath>
+    <LibraryPath>D:\SDL2-devel-2.0.8-VC\SDL2_image-2.0.3\lib\x64;D:\Downloads\SDL2_image-devel-2.0.3-VC\SDL2_image-2.0.3\lib\x64;D:\Downloads\SDL2-devel-2.0.8-VC\SDL2-2.0.8\lib\x64;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -117,10 +122,10 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>D:\Downloads\SDL2-devel-2.0.8-VC\SDL2-2.0.8\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>D:\SDL2-devel-2.0.8-VC\SDL2-2.0.8\include;D:\Downloads\SDL2-devel-2.0.8-VC\SDL2-2.0.8\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
-      <AdditionalLibraryDirectories>D:\Downloads\SDL2-devel-2.0.8-VC\SDL2-2.0.8\lib\x64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>D:\SDL2-devel-2.0.8-VC\SDL2-2.0.8\lib\x64;D:\Downloads\SDL2-devel-2.0.8-VC\SDL2-2.0.8\lib\x64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>SDL2.lib;SDL2main.lib;SDL2_image.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <SubSystem>Console</SubSystem>
     </Link>

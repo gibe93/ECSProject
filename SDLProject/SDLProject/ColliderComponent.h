@@ -11,6 +11,11 @@ public:
 
 	TransformComponent* m_pTransform;
 
+	ColliderComponent()
+	{
+		m_sTag = "default";
+	};
+
 	ColliderComponent(const std::string& tag)
 	{
 		m_sTag = tag;
@@ -23,6 +28,8 @@ public:
 			entity->AddComponent<TransformComponent>();
 		}
 		m_pTransform = &entity->GetComponent<TransformComponent>();
+
+		Game::m_vColliders.push_back(this);
 	}
 
 	void Update() override
