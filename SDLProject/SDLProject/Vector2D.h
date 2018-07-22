@@ -15,6 +15,8 @@ public:
 	Vector2D& Multiply(const Vector2D& vec);
 	Vector2D& Divide(const Vector2D& vec);
 
+	Vector2D& Zero();
+
 	friend Vector2D& operator+(Vector2D& v1, const Vector2D& v2);
 	friend Vector2D& operator-(Vector2D& v1, const Vector2D& v2);
 	friend Vector2D& operator*(Vector2D& v1, const Vector2D& v2);
@@ -29,4 +31,12 @@ public:
 	bool operator!=(const float& f);
 
 	friend std::ostream& operator<<(std::ostream& stream, const Vector2D& vec);
+
+	float Length() const;
+	float LengthSquared() const;
+
+	float Distance(const Vector2D & vec) const;
+	float Dot(const Vector2D & vec) const;
+	
+	Vector2D & Normalize();
 };

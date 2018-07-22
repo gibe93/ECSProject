@@ -1,4 +1,5 @@
 #include "Vector2D.h"
+#include <math.h>
 
 Vector2D::Vector2D()
 {
@@ -40,6 +41,14 @@ Vector2D & Vector2D::Divide(const Vector2D & vec)
 	return *this;
 }
 
+
+Vector2D& Vector2D::Zero()
+{
+	this->x = 0;
+	this->y = 0;
+	return *this;
+}
+
 Vector2D & Vector2D::operator+=(const Vector2D & vec)
 {
 	return this->Add(vec);
@@ -58,6 +67,42 @@ Vector2D & Vector2D::operator*=(const Vector2D & vec)
 Vector2D & Vector2D::operator/=(const Vector2D & vec)
 {
 	return this->Divide(vec);
+}
+
+float Vector2D::Length() const
+{
+	return sqrt(x * x + y * y);
+}
+
+float Vector2D::LengthSquared() const
+{
+	return x * x + y * y;
+}
+
+float Vector2D::Distance(const Vector2D & vec) const
+{
+	return sqrt(((x - vec.x) * (x - vec.x)) + ((y - vec.y) * (y - vec.y)));
+}
+
+float Vector2D::Dot(const Vector2D & vec) const
+{
+	return x * vec.x + y * vec.y;
+}
+
+Vector2D & Vector2D::Normalize()
+{
+	{
+		if (Length() != 0)
+		{
+			float length = Length();
+			x /= length; y /= length;
+			return *this;
+		}
+
+		x = y = 0;
+		return *this;
+	}
+
 }
 
 bool Vector2D::operator!=(const Vector2D & v)

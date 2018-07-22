@@ -21,6 +21,8 @@
   <ItemGroup>
     <ClInclude Include="Animation.h" />
     <ClInclude Include="AssetManager.h" />
+    <ClInclude Include="BehaviourTree.h" />
+    <ClInclude Include="BehaviourTreeComponent.h" />
     <ClInclude Include="ColliderComponent.h" />
     <ClInclude Include="CollisionManager.h" />
     <ClInclude Include="Components.h" />
@@ -36,6 +38,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AssetManager.cpp" />
+    <ClCompile Include="BehaviourTree.cpp" />
+    <ClCompile Include="BehaviourTreeComponent.cpp" />
     <ClCompile Include="CollisionManager.cpp" />
     <ClCompile Include="ECS.cpp" />
     <ClCompile Include="Game.cpp" />

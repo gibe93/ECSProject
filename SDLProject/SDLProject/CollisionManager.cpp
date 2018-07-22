@@ -18,7 +18,7 @@ bool CollisionManager::AABB(const ColliderComponent & colA, const ColliderCompon
 {
 	if (CollisionManager::AABB(colA.m_oCollider, colB.m_oCollider))
 	{
-		std::cout << colA.m_sTag << " hitted " << colB.m_sTag << std::endl;
+		//std::cout << colA.m_sTag << " hitted " << colB.m_sTag << std::endl;
 		return true;
 	}
 	return false;

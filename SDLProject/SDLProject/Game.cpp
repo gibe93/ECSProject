@@ -5,6 +5,7 @@
 #include "Vector2D.h"
 #include "CollisionManager.h"
 #include "AssetManager.h"
+#include "BehaviourTree.h"
 
 Manager manager;
 SDL_Renderer* Game::Renderer = nullptr;
@@ -13,8 +14,8 @@ std::vector<ColliderComponent*> Game::m_vColliders;
 AssetManager* Game::assets = new AssetManager(&manager);
 Game* Game::m_pGameInstance = nullptr;
 
-
 auto& Player(manager.AddEntity());
+auto& WayPointOne(manager.AddEntity());
 
 enum GroupLabels: std::size_t
 {
@@ -68,13 +69,23 @@ void Game::Init(const char * title, int xPos, int yPos, int width, int height, b
 		assets->AddTexture("Water", "assets/water.png");
 		assets->AddTexture("Grass", "assets/grass.png");
 		
-
+		//map load
 		TileMap::LoadMap("assets/map.txt", 16, 16);
 
+		
+		
+
+		WayPointOne.AddComponent<TransformComponent>(300,300);
+		//Player components
 		Player.AddComponent<TransformComponent>(3);
 		Player.AddComponent<SpriteComponent>("Player");
-		Player.AddComponent<KeyboardController>();
+		//Player.AddComponent<KeyboardController>();
 		Player.AddGroup(GroupPlayers);
+		//Player Behaviour Tree
+		RootNode* NodeOne = new RootNode(nullptr, &Player);
+		MoveToNode* MoveToOne = new MoveToNode(NodeOne, &Player, 5);
+		NodeOne->AddChild(MoveToOne);
+		Player.AddComponent<BehaviourTreeComponent>(NodeOne);
 	}
 }
 
@@ -96,7 +107,6 @@ void Game::Update()
 {
 	manager.Refresh();
 	manager.Update();
-
 	for (auto cc : m_vColliders)
 	{
 		CollisionManager::AABB(Player.GetComponent<ColliderComponent>(), *cc);
