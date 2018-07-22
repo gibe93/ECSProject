@@ -45,6 +45,10 @@ public:
 		m_pTransform = &entity->GetComponent<TransformComponent>();
 		entity->AddComponent<SpriteComponent>(type);
 		m_pSprite = &entity->GetComponent<SpriteComponent>();
+		if(type == "Dirt")
+		{
+			entity->AddComponent<ColliderComponent>("Dirt Tile");
+		}
 	}
 };
 

@@ -8,6 +8,7 @@
 
 class AssetManager;
 class ColliderComponent;
+class Entity;
 using namespace std;
 
 class Game
@@ -25,6 +26,9 @@ public:
 
 	void HandleEvents();
 	void Update();
+
+	void CheckEntityCollisions(Entity* e);
+
 	void Draw();
 	void Clean();
 

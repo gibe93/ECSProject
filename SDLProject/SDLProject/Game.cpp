@@ -75,17 +75,18 @@ void Game::Init(const char * title, int xPos, int yPos, int width, int height, b
 		
 		
 
-		WayPointOne.AddComponent<TransformComponent>(300,300);
+		WayPointOne.AddComponent<TransformComponent>(300.0f,300.0f);
 		//Player components
 		Player.AddComponent<TransformComponent>(3);
 		Player.AddComponent<SpriteComponent>("Player");
-		//Player.AddComponent<KeyboardController>();
+		Player.AddComponent<KeyboardController>();
+		Player.AddComponent<ColliderComponent>("Player");
 		Player.AddGroup(GroupPlayers);
 		//Player Behaviour Tree
-		RootNode* NodeOne = new RootNode(nullptr, &Player);
+	/*	RootNode* NodeOne = new RootNode(nullptr, &Player);
 		MoveToNode* MoveToOne = new MoveToNode(NodeOne, &Player, 5);
 		NodeOne->AddChild(MoveToOne);
-		Player.AddComponent<BehaviourTreeComponent>(NodeOne);
+		Player.AddComponent<BehaviourTreeComponent>(NodeOne);*/
 	}
 }
 
@@ -107,9 +108,37 @@ void Game::Update()
 {
 	manager.Refresh();
 	manager.Update();
+	CheckEntityCollisions(&Player);
+}
+
+void Game::CheckEntityCollisions(Entity * e)
+{
 	for (auto cc : m_vColliders)
 	{
-		CollisionManager::AABB(Player.GetComponent<ColliderComponent>(), *cc);
+		bool isRight;
+		bool isBottom;
+		bool isLeft;
+		bool isTop;
+		if (CollisionManager::AABBdir(e->GetComponent<ColliderComponent>(), *cc, isRight, isLeft, isTop, isBottom))
+		{
+			if (isRight)
+			{
+				e->GetComponent<TransformComponent>().m_oPosition.x = cc->m_pTransform->m_oPosition.x + cc->m_pTransform->m_iWidth + 1;
+			}
+			else if (isLeft)
+			{
+				e->GetComponent<TransformComponent>().m_oPosition.x = cc->m_pTransform->m_oPosition.x - e->GetComponent<TransformComponent>().m_iWidth - 1;
+			}
+			if (isBottom)
+			{
+				e->GetComponent<TransformComponent>().m_oPosition.y = cc->m_pTransform->m_oPosition.y + cc->m_pTransform->m_iHeight + 1;
+			}
+			else if (isTop)
+			{
+				e->GetComponent<TransformComponent>().m_oPosition.y = cc->m_pTransform->m_oPosition.y - e->GetComponent<TransformComponent>().m_iHeight - 1;
+			}
+		}
+
 	}
 }
 
