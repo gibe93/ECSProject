@@ -21,6 +21,7 @@
   <ItemGroup>
     <ClInclude Include="Animation.h" />
     <ClInclude Include="AssetManager.h" />
+    <ClInclude Include="AStar.h" />
     <ClInclude Include="BehaviourTree.h" />
     <ClInclude Include="BehaviourTreeComponent.h" />
     <ClInclude Include="ColliderComponent.h" />
@@ -38,6 +39,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AssetManager.cpp" />
+    <ClCompile Include="AStar.cpp" />
     <ClCompile Include="BehaviourTree.cpp" />
     <ClCompile Include="BehaviourTreeComponent.cpp" />
     <ClCompile Include="CollisionManager.cpp" />

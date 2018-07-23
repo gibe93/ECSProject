@@ -9,16 +9,16 @@
 
 using namespace std;
 
-class Node
+class State
 {
 private:
-	Node* m_pFather;
-	std::vector<Node*> m_vChildren;
+	State* m_pFather;
+	std::vector<State*> m_vChildren;
 	string m_sNodeName;
 	Entity* m_pOwner;
 
 	virtual bool CheckEnterCondition() = 0;
-	virtual Node* EnterNode() { return this; }
+	virtual State* EnterNode() { return this; }
 	virtual void ExitNode() {}
 
 
@@ -28,21 +28,21 @@ public:
 		return m_pOwner;
 	}
 
-	Node(Node* father, Entity* owner, string name)
+	State(State* father, Entity* owner, string name)
 	{
 		m_pFather = father;
 		m_pOwner = owner;
 		m_sNodeName = name;
 	}
 
-	virtual void AddChild(Node* child)
+	virtual void AddChild(State* child)
 	{
 		m_vChildren.emplace_back(child);
 	}
 
-	virtual Node* CheckConditions()
+	virtual State* CheckConditions()
 	{
-		for (Node* n : m_vChildren)
+		for (State* n : m_vChildren)
 		{
 			if (n->CheckEnterCondition())
 			{
@@ -71,10 +71,10 @@ public:
 
 };
 
-class RootNode : public Node
+class RootNode : public State
 {
 public:
-	RootNode(Node* father, Entity* owner) : Node(father, owner, "NodeOne") {}
+	RootNode(State* father, Entity* owner) : State(father, owner, "NodeOne") {}
 
 	bool CheckEnterCondition() override
 	{
@@ -83,7 +83,7 @@ public:
 };
 
 
-class MoveToNode : public Node
+class MoveToNode : public State
 {
 private:
 	Vector2D m_oDestination;
@@ -92,7 +92,7 @@ private:
 	bool b_mFollowMousePos;
 
 public:
-	MoveToNode(Node* father, Entity* owner, float acceptableDistance) : Node(father, owner, "MoveTo")
+	MoveToNode(State* father, Entity* owner, float acceptableDistance) : State(father, owner, "MoveTo")
 	{
 		m_oDestination = Vector2D(0, 0);
 		m_fAcceptableDistance = acceptableDistance;
@@ -100,7 +100,7 @@ public:
 		b_mFollowMousePos = true;
 	}
 
-	MoveToNode(Node* father, Entity* owner, Vector2D Dest, float acceptableDistance, bool followMouse = false) : Node(father, owner, "MoveTo")
+	MoveToNode(State* father, Entity* owner, Vector2D Dest, float acceptableDistance, bool followMouse = false) : State(father, owner, "MoveTo")
 	{
 		m_oDestination = Dest;
 		m_fAcceptableDistance = acceptableDistance;
@@ -108,7 +108,7 @@ public:
 		b_mFollowMousePos = followMouse;
 	}
 
-	MoveToNode(Node* father, Entity* owner, float xDest, float yDest, float acceptableDistance, bool followMouse = false) : Node(father, owner, "MoveTo")
+	MoveToNode(State* father, Entity* owner, float xDest, float yDest, float acceptableDistance, bool followMouse = false) : State(father, owner, "MoveTo")
 	{
 		m_oDestination = Vector2D(xDest, yDest);
 		m_fAcceptableDistance = acceptableDistance;
@@ -117,7 +117,7 @@ public:
 
 	}
 
-	MoveToNode(Node* father, Entity* owner, Entity* other, float acceptableDistance, bool followMouse = false) : Node(father, owner, "MoveTo")
+	MoveToNode(State* father, Entity* owner, Entity* other, float acceptableDistance, bool followMouse = false) : State(father, owner, "MoveTo")
 	{
 		m_fAcceptableDistance = acceptableDistance;
 		m_pDestinationEntity = other;
@@ -147,7 +147,7 @@ public:
 
 	void Run()override
 	{
-		Node::Run();
+		State::Run();
 		if (b_mFollowMousePos)
 		{
 			int x;
@@ -175,7 +175,7 @@ public:
 		
 	}
 
-	Node* EnterNode() override
+	State* EnterNode() override
 	{
 		Vector2D direction;
 		if (Owner()->GetComponent<TransformComponent>().m_oPosition.Distance(m_oDestination) > m_fAcceptableDistance)

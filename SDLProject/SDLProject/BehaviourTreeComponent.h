@@ -3,16 +3,16 @@
 #include <string>
 #include <memory.h>
 
-class Node;
+class State;
 
 class BehaviourTreeComponent: public Component
 {
 private:
-	Node* m_pRunningNode;
+	State* m_pRunningNode;
 
 public:
 	
-	BehaviourTreeComponent(Node* startingNode)
+	BehaviourTreeComponent(State* startingNode)
 	{
 		m_pRunningNode = startingNode;
 	}

@@ -9,6 +9,8 @@
 class AssetManager;
 class ColliderComponent;
 class Entity;
+class Generator;
+class TileComponent;
 using namespace std;
 
 class Game
@@ -34,7 +36,7 @@ public:
 
 	bool Running() { return m_bIsRunning; }
 
-	static void AddTile(int id, int x, int y);
+	static void AddTile(int id, int x, int y, Generator* g);
 	static SDL_Renderer* Renderer;
 	static SDL_Event event;
 	static std::vector<ColliderComponent*> m_vColliders;

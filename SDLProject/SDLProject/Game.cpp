@@ -6,6 +6,7 @@
 #include "CollisionManager.h"
 #include "AssetManager.h"
 #include "BehaviourTree.h"
+#include "AStar.h"
 
 Manager manager;
 SDL_Renderer* Game::Renderer = nullptr;
@@ -17,7 +18,7 @@ Game* Game::m_pGameInstance = nullptr;
 auto& Player(manager.AddEntity());
 auto& WayPointOne(manager.AddEntity());
 
-enum GroupLabels: std::size_t
+enum GroupLabels : std::size_t
 {
 	GroupMap,
 	GroupPlayers,
@@ -68,14 +69,14 @@ void Game::Init(const char * title, int xPos, int yPos, int width, int height, b
 		assets->AddTexture("Dirt", "assets/dirt.png");
 		assets->AddTexture("Water", "assets/water.png");
 		assets->AddTexture("Grass", "assets/grass.png");
-		
+
 		//map load
-		TileMap::LoadMap("assets/map.txt", 16, 16);
+		TileMap map;
+		map.LoadMap("assets/map.txt", 16, 16);
 
-		
-		
 
-		WayPointOne.AddComponent<TransformComponent>(300.0f,300.0f);
+
+		WayPointOne.AddComponent<TransformComponent>(300.0f, 300.0f);
 		//Player components
 		Player.AddComponent<TransformComponent>(3);
 		Player.AddComponent<SpriteComponent>("Player");
@@ -87,6 +88,11 @@ void Game::Init(const char * title, int xPos, int yPos, int width, int height, b
 		MoveToNode* MoveToOne = new MoveToNode(NodeOne, &Player, 5);
 		NodeOne->AddChild(MoveToOne);
 		Player.AddComponent<BehaviourTreeComponent>(NodeOne);*/
+		auto path = map.m_pAStarGenerator->findPath({ 0,0 }, { 8,9 });
+		for (auto& c : path)
+		{
+			cout << c.x << " - " << c.y << endl;
+		}
 	}
 }
 
@@ -150,7 +156,7 @@ auto& colliders(manager.GetGroup(GroupColliders));
 void Game::Draw()
 {
 	SDL_RenderClear(Renderer);
-	for(auto& t : tiles)
+	for (auto& t : tiles)
 	{
 		t->Draw();
 	}
@@ -160,7 +166,7 @@ void Game::Draw()
 	}	for (auto& e : enemies)
 	{
 		e->Draw();
-	}	
+	}
 	for (auto& c : colliders)
 	{
 		c->Draw();
@@ -176,9 +182,13 @@ void Game::Clean()
 	cout << "Game has been cleaned and closed" << endl;
 }
 
-void Game::AddTile(int id, int x, int y)
+void Game::AddTile(int id, int x, int y, Generator* g)
 {
 	auto& tile(manager.AddEntity());
 	tile.AddComponent<TileComponent>(x, y, 32, 32, id);
+	if (id == 0)
+	{
+		g->addCollision({ (int)(x / 32), (int)(y / 32) });
+	}
 	tile.AddGroup(GroupMap);
 }

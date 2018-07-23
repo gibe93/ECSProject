@@ -28,6 +28,11 @@ public:
 	Vector2D& operator*=(const Vector2D& vec);
 	Vector2D& operator/=(const Vector2D& vec);
 
+	bool operator==(const Vector2D& coordinates_)
+	{
+		return (x == coordinates_.x && y == coordinates_.y);
+	}
+
 	bool operator!=(const Vector2D& v);
 	bool operator!=(const float& f);
 
