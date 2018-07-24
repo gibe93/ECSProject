@@ -8,6 +8,7 @@ TileMap::TileMap()
 {	
 	m_pAStarGenerator = new Generator();
 	m_pAStarGenerator->setHeuristic(Heuristic::manhattan);
+	m_pAStarGenerator->setDiagonalMovement(false);
 }
 
 

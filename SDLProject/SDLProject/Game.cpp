@@ -71,12 +71,12 @@ void Game::Init(const char * title, int xPos, int yPos, int width, int height, b
 		assets->AddTexture("Grass", "assets/grass.png");
 
 		//map load
-		TileMap map;
-		map.LoadMap("assets/map.txt", 16, 16);
+		TileMap* map = new TileMap();
+		map->LoadMap("assets/map.txt", 16, 16);
 
 
 
-		WayPointOne.AddComponent<TransformComponent>(300.0f, 300.0f);
+		//WayPointOne.AddComponent<TransformComponent>(300.0f, 300.0f);
 		//Player components
 		Player.AddComponent<TransformComponent>(3);
 		Player.AddComponent<SpriteComponent>("Player");
@@ -84,15 +84,15 @@ void Game::Init(const char * title, int xPos, int yPos, int width, int height, b
 		Player.AddComponent<ColliderComponent>("Player");
 		Player.AddGroup(GroupPlayers);
 		//Player Behaviour Tree
-	/*	RootNode* NodeOne = new RootNode(nullptr, &Player);
-		MoveToNode* MoveToOne = new MoveToNode(NodeOne, &Player, 5);
+		RootNode* NodeOne = new RootNode(nullptr, &Player);
+		MoveToNode* MoveToOne = new MoveToNode(NodeOne, &Player, map, Vector2D(32 * 8, 32 * 11), 2);
 		NodeOne->AddChild(MoveToOne);
-		Player.AddComponent<BehaviourTreeComponent>(NodeOne);*/
-		auto path = map.m_pAStarGenerator->findPath({ 0,0 }, { 8,9 });
+		Player.AddComponent<BehaviourTreeComponent>(NodeOne);
+		/*auto path = map.m_pAStarGenerator->findPath({ 0,0 }, { 8,9 });
 		for (auto& c : path)
 		{
 			cout << c.x << " - " << c.y << endl;
-		}
+		}*/
 	}
 }
 
