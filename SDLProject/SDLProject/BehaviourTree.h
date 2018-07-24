@@ -210,7 +210,6 @@ public:
 		int j = (int)Owner()->GetComponent<TransformComponent>().m_oPosition.x / 32;
 		int k = (int)Owner()->GetComponent<TransformComponent>().m_oPosition.y / 32;
 		m_vWayPoints = m_pMap->m_pAStarGenerator->findPath({ j, k }, { (int)m_oDestination.x / 32, (int)m_oDestination.y / 32 });
-		std::reverse(m_vWayPoints.begin(), m_vWayPoints.end());
 		/*Vector2D direction;
 		if (Owner()->GetComponent<TransformComponent>().m_oPosition.Distance(m_oDestination) > m_fAcceptableDistance)
 		{

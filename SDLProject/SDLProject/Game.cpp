@@ -127,7 +127,7 @@ void Game::CheckEntityCollisions(Entity * e)
 		bool isTop;
 		if (CollisionManager::AABBdir(e->GetComponent<ColliderComponent>(), *cc, isRight, isLeft, isTop, isBottom))
 		{
-			if (isRight)
+			/*if (isRight)
 			{
 				e->GetComponent<TransformComponent>().m_oPosition.x = cc->m_pTransform->m_oPosition.x + cc->m_pTransform->m_iWidth + 1;
 			}
@@ -142,7 +142,7 @@ void Game::CheckEntityCollisions(Entity * e)
 			else if (isTop)
 			{
 				e->GetComponent<TransformComponent>().m_oPosition.y = cc->m_pTransform->m_oPosition.y - e->GetComponent<TransformComponent>().m_iHeight - 1;
-			}
+			}*/
 		}
 
 	}

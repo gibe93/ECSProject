@@ -115,7 +115,7 @@ CoordinateList Generator::findPath(Coord source_, Coord target_)
 
 	releaseNodes(openSet);
 	releaseNodes(closedSet);
-
+	reverse(path.begin(), path.end());
 	return path;
 }
 
